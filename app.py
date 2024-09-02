@@ -4,12 +4,18 @@ import pandas as pd
 
 # Connect to MySQL database
 def create_connection():
-    return mysql.connector.connect(
-        host='https://rekhatravels.com/myweb/',   # Replace with your host   
-        user='bnapajbo_himadri',    # Replace with your username
-        password='Bolbok3no?',# Replace with your password
-        database='bnapajbo_sln' # Replace with your database name
-    )
+    try:
+        conn = mysql.connector.connect(
+            host='',
+            port='',
+            user='',  # Replace with your username
+            password='',  # Replace with your password
+            database=''  # Replace with your database name
+        )
+        return conn
+    except mysql.connector.Error as err:
+        st.error(f"Error: {err}")
+        return None
 
 # Function to create the table if it doesn't exist
 def create_table(conn):
@@ -29,10 +35,7 @@ def insert_data(conn, data):
     cursor = conn.cursor()
     for _, row in data.iterrows():
         try:
-            # Convert and format the date column
             date = pd.to_datetime(row['Date'], errors='coerce').strftime('%Y-%m-%d')
-            
-            # Check if all fields are valid
             if pd.notna(row['Location (Test)']) and pd.notna(row['Sl No (Test)']) and pd.notna(date):
                 cursor.execute('''
                     INSERT INTO test_data (location_test, sl_no_test, date)
@@ -65,6 +68,9 @@ def main():
 
     # MySQL Connection
     conn = create_connection()
+    if conn is None:
+        st.error("Failed to connect to the database. Please check your credentials and server status.")
+        return
     create_table(conn)
 
     # File uploader for CSV
@@ -77,12 +83,11 @@ def main():
 
         # Insert data into MySQL
         if st.sidebar.button('Upload to Database'):
-            # Check if all required columns are present
             if {'Location (Test)', 'Sl No (Test)', 'Date'}.issubset(csv_data.columns):
                 insert_data(conn, csv_data)
                 st.sidebar.success('Data uploaded successfully!')
             else:
-                st.sidebar.error('CSV file must contain "Location (Test)", "Sl No (Test)", and "Date" columns.')  #(Date Is YYYY-MM-DD)
+                st.sidebar.error('CSV file must contain "Location (Test)", "Sl No (Test)", and "Date" columns.')
 
     # Search Section
     st.subheader('Search Data')
