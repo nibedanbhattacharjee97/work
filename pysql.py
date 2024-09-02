@@ -90,16 +90,14 @@ def main():
     sl_no = st.text_input('Enter Sl No (Test)')
     date = st.text_input('Enter Date (YYYY-MM-DD)')
 
-    # Ensure all fields are mandatory before searching
+    # Search button
     if st.button('Search'):
-        if location and sl_no and date:
-            results = fetch_data(conn, location=location, sl_no=sl_no, date=date)
-            if results:
-                st.write('Search Results:', pd.DataFrame(results))
-            else:
-                st.write('No results found.')
+        # Fetch data based on any provided inputs
+        results = fetch_data(conn, location=location or None, sl_no=sl_no or None, date=date or None)
+        if results:
+            st.write('Search Results:', pd.DataFrame(results))
         else:
-            st.error('All fields are mandatory for searching!')
+            st.write('No results found.')
 
     # Close the database connection
     conn.close()
