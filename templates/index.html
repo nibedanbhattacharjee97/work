@@ -6,9 +6,10 @@
     <title>SQLite Data Search and Upload Application</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Center align text in table cells */
-        .text-center {
+        /* Center align text and vertically align middle in table cells */
+        .align-middle {
             text-align: center;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -59,14 +60,14 @@
         {% if results %}
             <h2 class="mt-4">Search Results</h2>
             <table class="table table-bordered">
-                <thead class="text-center">
+                <thead class="align-middle">
                     <tr>
                         <th>Location (Test)</th>
                         <th>Sl No (Test)</th>
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody class="text-center">
+                <tbody class="align-middle">
                     {% for row in results %}
                         <tr>
                             <td>{{ row['location_test'] }}</td>
