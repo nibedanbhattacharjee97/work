@@ -6,7 +6,47 @@
     <title>SQLite Data Search and Upload Application</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Center align text and vertically align middle in table cells */
+        .upload-container {
+            border: 2px dashed #d3d3d3;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: border-color 0.3s ease-in-out;
+        }
+        .upload-container:hover {
+            border-color: #007bff;
+        }
+        .upload-icon {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .upload-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .upload-button {
+            background-color: #ffa500;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+        .upload-button:hover {
+            background-color: #ff8800;
+        }
+        .upload-info {
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
+        }
         .align-middle {
             text-align: center;
             vertical-align: middle;
@@ -15,7 +55,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">SQLite Data Search and Upload Application</h1>
+        <h1 class="mb-4 text-center">SQLite Data Search and Upload Application</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -30,28 +70,36 @@
           {% endif %}
         {% endwith %}
 
-        <!-- File Upload Form -->
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="file">Upload CSV</label>
-                <input type="file" name="file" class="form-control-file" id="file">
+        <!-- File Upload Section -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="upload-container">
+                    <i class="upload-icon">&#128196;</i> <!-- File upload icon -->
+                    <p class="upload-text">Drag and drop document here to upload</p>
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" id="file" class="d-none">
+                        <label for="file" class="upload-button">Select from device</label>
+                    </form>
+                    <p class="upload-info">Upload CSV File</p>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Upload to Database</button>
-        </form>
+        </div>
 
         <!-- Search Form -->
         <form method="post" class="mt-4">
-            <div class="form-group">
-                <label for="location">Location (Test)</label>
-                <input type="text" name="location" class="form-control" id="location" placeholder="Enter Location (Test)">
-            </div>
-            <div class="form-group">
-                <label for="sl_no">Sl No (Test)</label>
-                <input type="text" name="sl_no" class="form-control" id="sl_no" placeholder="Enter Sl No (Test)">
-            </div>
-            <div class="form-group">
-                <label for="date">Date (YYYY-MM-DD)</label>
-                <input type="text" name="date" class="form-control" id="date" placeholder="Enter Date">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="location">Location (Test)</label>
+                    <input type="text" name="location" class="form-control" id="location" placeholder="Enter Location (Test)">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sl_no">Sl No (Test)</label>
+                    <input type="text" name="sl_no" class="form-control" id="sl_no" placeholder="Enter Sl No (Test)">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="date">Date (YYYY-MM-DD)</label>
+                    <input type="text" name="date" class="form-control" id="date" placeholder="Enter Date">
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
